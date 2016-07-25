@@ -4,9 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 
-const zip = function(dir, outDir='.') {
+const zip = function(zip, outDir='.') {
       const archive = archiver('zip');
-      const file = path.parse(dir);
+      const file = path.parse(zip);
       const outFile = path.join(outDir, file.base + '.zip');
       const output = fs.createWriteStream(outFile);
 

@@ -1,5 +1,47 @@
 #! /usr/bin/env node
 
-const deploy = require('../index')();
+const createConnection = require('jsforce-connection').default;
+const jsforce = require('jsforce');
+const path = require('path');
+const {retrieveByPackageXML} = require('jsforce-metadata-tools');
+const CONNECTION_NAME = 'JSFORCE_RETRIEVE';
+const fs = require('fs');
 
-deploy(process.argv[2], process.argv[3]);
+const retrieve = function(conn, options) {
+
+    console.log(`jsforce connected to ${conn.instanceUrl}`);
+    const registry = jsforce.registry;
+    jsforce.registry = {
+        getConnection: function (name) {
+            if(name === CONNECTION_NAME) {
+                return conn;
+            } else {
+                return registry.getConnection(name);
+            }
+        }
+    };
+
+    const packageXml = options.packageXml || path.join('salesforce', 'src', 'package.xml');
+    const zipOutputPath = options.outputPath || path.join('.', 'package.zip');
+
+    return retrieveByPackageXML(packageXml, {connection: CONNECTION_NAME})
+        .then((data) => {
+            console.log("got some data");
+            const zipOut = fs.createWriteStream(zipOutputPath);
+            zipOut.on('close', () => console.log(`${zipOut.bytesWritten} bytes written`));
+            zipOut.on('error', (err) => console.error(err));
+            zipOut.write(data.zipFile, 'base64', () => console.log("data written"));
+            zipOut.end();
+        }).catch((err) => {
+            console.error(err);
+        });
+};
+
+createConnection()
+    .then((conn) => retrieve(conn, {packageXml:'test/retrieve/package.xml'}))
+    .catch((err) => console.error(err));
+
+module.exports = function() {
+
+};
+

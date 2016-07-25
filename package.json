@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Deploys directory or zip",
   "bin": {
-    "jsforce-deploy": "bin/deploy.js"
+    "jsforce-retrieve": "bin/deploy.js"
   },
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,9 @@
   "author": "ntblack",
   "license": "MIT",
   "dependencies": {
-    "archiver": "1.0.0"
+    "archiver": "1.0.0",
+    "jsforce": "^1.7.0",
+    "jsforce-connection": "^2.1.0",
+    "jsforce-metadata-tools": "1.2.2"
   }
 }
