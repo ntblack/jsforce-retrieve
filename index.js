@@ -1,4 +1,3 @@
-const retrieve = require('./lib/retrieve');
+const path = require('path');
 
-module.exports = retrieve;
-
+module.exports = require(path.join('.', 'lib', 'retrieve');
