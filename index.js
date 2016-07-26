@@ -1,3 +1,3 @@
 const path = require('path');
 
-module.exports = require(path.join('.', 'lib', 'retrieve'));
+module.exports = require(path.join(__dirname, 'lib', 'retrieve'));
