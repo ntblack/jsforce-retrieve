@@ -1,5 +1,5 @@
 {
-  "name": "jsforce-deploy",
+  "name": "jsforce-retrieve",
   "version": "1.0.0",
   "description": "Deploys directory or zip",
   "bin": {
